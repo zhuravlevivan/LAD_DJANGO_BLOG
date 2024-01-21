@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Comment, Profile
+from .models import Comment, Profile, Post
 
 
 class EmailPostForm(forms.Form):
@@ -18,6 +18,22 @@ class CommentForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     query = forms.CharField()
+
+
+class AddPostForm(forms.ModelForm):
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # it is required to set it False,
+        # otherwise it will throw error in console
+        self.fields["body"].required = False
+
+
+    class Meta:
+        model = Post
+        fields = ['title', 'author', 'body']
+
 
 class LoginForm(forms.Form):
     username = forms.CharField()
