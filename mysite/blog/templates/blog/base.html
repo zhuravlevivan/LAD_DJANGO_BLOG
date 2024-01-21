@@ -14,5 +14,16 @@
     <h2>My blog</h2>
     <p>This is my blog.</p>
 </div>
+<div>
+    {% if request.user.is_authenticated %}
+        Hello {{ request.user.first_name|default:request.user.username }},
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">logout</button>
+        </form>
+    {% else %}
+        <a href="{% url "login" %}">Log-in</a>
+    {% endif %}
+</div>
 </body>
 </html>
