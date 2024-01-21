@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <div>
+
+        <form method="post">{% csrf_token %}
+            <p>Удалить событие "{{ post.title }}"?</p>
+            <p>Содержание:</p>
+            <p>{{ post.body|truncatewords:15|safe }}</p>
+            <p><button type="submit">Подтвердить удаление</button></p>
+            <p><button type="button" onclick="window.history.back();">Отмена</button></p>
+        </form>
+
+
+    </div>
+
+{% endblock %}

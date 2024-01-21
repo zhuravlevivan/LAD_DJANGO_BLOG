@@ -7,21 +7,20 @@
     <p class="date">
         Published {{ post.publish }} by {{ post.author }}
     </p>
-    {{ post.body|linebreaks }}
+    {{ post.body|safe|linebreaks }}
     <p>
         <a href='{% url "blog:post_share" post.id %}'>
             Share this post
         </a>
     </p>
-
+    <p><a href="{% url 'blog:post_update' post.id %}">Редактировать пост</a></p>
+    <p><a href="{% url 'blog:post_delete' post.id %}">Удалить пост</a></p>
     {% with comments.count as total_comments %}
         <h2>
             {{ total_comments }} comment {{ total_comments|pluralize }}
         </h2>
     {% endwith %}
 
-
-    <a href="{% url 'blog:post_list' %}">На главную</a>
     {% for comment in comments %}
         <div class="comment">
             <p class="info">

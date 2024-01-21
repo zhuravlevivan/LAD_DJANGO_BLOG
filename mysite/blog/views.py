@@ -3,15 +3,17 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from mysite.settings import EMAIL_HOST_USER
-from .forms import EmailPostForm, CommentForm, SearchForm
+from .forms import EmailPostForm, CommentForm, SearchForm, AddPostForm
 from .forms import LoginForm, UserRegistrationForm, ProfileEditForm, UserEditForm
 from .models import Post, Profile
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
+from django.urls import reverse_lazy
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.postgres.search import TrigramSimilarity
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 
 def post_search(request):
@@ -134,6 +136,28 @@ def post_comment(request, post_id):
                    'comment': comment})
 
 
+class AddPost(CreateView):
+    model = Post
+    form_class = AddPostForm
+    template_name = 'blog/post/add.html'
+    success_url = reverse_lazy('blog:post_list')
+
+
+class UpdatePost(UpdateView):
+    model = Post
+    form_class = AddPostForm
+    # fields = '__all__'
+    template_name = 'blog/post/edit.html'
+    success_url = reverse_lazy('blog:post_list')
+
+
+class DeletePost(DeleteView):
+    model = Post
+    template_name = 'blog/post/delete.html'
+    context_object_name = 'post'
+    success_url = reverse_lazy('blog:post_list')
+
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -153,6 +177,11 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'blog/registration/login.html', {'form': form})
+
+
+@login_required
+def dashboard(request):
+    return render(request, 'blog/dashboard.html')
 
 
 def register(request):

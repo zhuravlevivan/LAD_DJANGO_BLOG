@@ -9,9 +9,13 @@ urlpatterns = [
     path('<int:year>/<int:month>/<int:day>/<slug:post>', views.post_detail, name='post_detail'),
     path('<int:post_id>/share/', views.post_share, name='post_share'),
     path('<int:post_id>/comment/', views.post_comment, name='post_comment'),
+    path('addpost/', views.AddPost.as_view(), name='add_post'),
+    path('edit/<int:pk>', views.UpdatePost.as_view(), name='post_update'),
+    path('delete/<int:pk>', views.DeletePost.as_view(), name='post_delete'),
     path('search/', views.post_search, name='post_search'),
     path('login/', auth_views.LoginView.as_view(template_name='blog/registration/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='blog/registration/logged_out.html'), name='logout'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     # url-адреса смены пароля
     path('password-change/',
          auth_views.PasswordChangeView.as_view(template_name='blog/registration/password_change_form.html'),
@@ -36,5 +40,3 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),
 ]
-
-

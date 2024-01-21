@@ -3,6 +3,8 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from django.conf import settings
+from django_ckeditor_5.fields import CKEditor5Field
+from slugify import slugify
 
 
 class PublishedManager(models.Manager):
@@ -18,11 +20,12 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
-    body = models.TextField()
+    # body = models.TextField()
+    body = CKEditor5Field('Содержимое', config_name='extends')
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.PUBLISHED)
 
     objects = models.Manager()
     published = PublishedManager()
@@ -35,6 +38,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super(Post, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('blog:post_detail',
