@@ -1,4 +1,6 @@
-{% extends "blog/base.html" %}
+{% extends "blog/base2.html" %}
+
+{% load crispy_forms_tags %}
 
 {% block content %}
     <h1>{{ title }}</h1>
@@ -7,11 +9,28 @@
 
         <form action="" method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            {{ form.media}}
-            <button type="submit">Сохранить</button>
+            {#            {{ form.as_p }}#}
+            <div class="row">
+                <div class="col-4">
+                    {{ form.title|as_crispy_field }}
+                </div>
+                <div class="col-4">
+                    {{ form.author|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    {{ form.body|as_crispy_field }}
+                </div>
+            </div>
+            {{ form.media }}
+            <p>
+                <button type="submit">Сохранить</button>
+            </p>
+            <p>
+                <button type="button" onclick="window.history.back();">Отмена</button>
+            </p>
         </form>
-
 
 
     </div>
