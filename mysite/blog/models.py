@@ -4,7 +4,8 @@ from django.utils import timezone
 from django.urls import reverse
 from django.conf import settings
 from django_ckeditor_5.fields import CKEditor5Field
-from slugify import slugify
+from django.utils.text import slugify
+from common.utils import get_image_path
 
 
 class PublishedManager(models.Manager):
@@ -20,8 +21,8 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
-    # body = models.TextField()
     body = CKEditor5Field('Содержимое', config_name='extends')
+    picture = models.ImageField(upload_to=get_image_path, blank=True, null=True, verbose_name='Картинка статьи')
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -79,4 +80,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'Profile of {self.user.username}'
-

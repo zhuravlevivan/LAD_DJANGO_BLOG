@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_ckeditor_5',
     'crispy_forms',
     'crispy_bootstrap4',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -136,8 +137,8 @@ EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 
-EMAIL_HOST_USER = '@yandex.ru'
-EMAIL_HOST_PASSWORD = 'secret'
+EMAIL_HOST_USER = 'cepotonin.nn@yandex.ru'
+EMAIL_HOST_PASSWORD = 'uyeefqmstrvgkcsq'
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER

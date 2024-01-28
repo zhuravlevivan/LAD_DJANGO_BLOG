@@ -136,6 +136,7 @@ def post_comment(request, post_id):
                    'comment': comment})
 
 
+# @login_required
 class AddPost(CreateView):
     model = Post
     form_class = AddPostForm
