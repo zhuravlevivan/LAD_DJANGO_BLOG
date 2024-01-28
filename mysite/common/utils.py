@@ -13,12 +13,11 @@ def slugify(s):
 
 def get_image_path(instance, filename):
     """Обработка кириллицы в имени загружаемой картинки"""
-    now = dt.now()
-    name, ext = filename.rsplit('.', 1)
+    # now = dt.now()
+    # name, ext = filename.rsplit('.', 1)
+    ext = filename.split('.')[-1]
+    # model = instance.title
 
-    # return os.path.join(instance._meta.model_name.lower(),
-    #                     now.strftime("%Y"),
-    #                     now.strftime("%m"),
-    #                     now.strftime("%d"),
-    #                     f'{slugify(name)}.{ext}')
-    return '/'.join((instance._meta.model_name.lower(), now.strftime('%Y/%m/%d'), f'{slugify(name)}.{ext}'))
+    # return '/'.join((instance._meta.model_name.lower(), now.strftime('%Y/%m/%d'), f'{slugify(name)}.{ext}'))
+    # return f'{model}s/{now.strftime("%Y/%m/%d")}/{slugify(name)}.{ext}'
+    return f'{dt.now().strftime("%Y-%m-%d_") + instance.title}.{ext}'
