@@ -6,6 +6,7 @@ from django.conf import settings
 from django_ckeditor_5.fields import CKEditor5Field
 from django.utils.text import slugify
 from common.utils import get_image_path
+from django_resized import ResizedImageField
 
 
 class PublishedManager(models.Manager):
@@ -22,7 +23,10 @@ class Post(models.Model):
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     body = CKEditor5Field('Содержимое', config_name='extends')
-    picture = models.ImageField(upload_to=get_image_path, blank=True, null=True, verbose_name='Картинка статьи')
+    picture = ResizedImageField(upload_to=get_image_path,
+                                blank=True, null=True,
+                                verbose_name='Картинка статьи',
+                                size=[1920, 1080])
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
