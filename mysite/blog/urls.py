@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 
-app_name = 'blog'
+# app_name = 'blog'
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),

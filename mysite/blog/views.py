@@ -14,6 +14,7 @@ from django.urls import reverse_lazy
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.postgres.search import TrigramSimilarity
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def post_search(request):
@@ -136,8 +137,8 @@ def post_comment(request, post_id):
                    'comment': comment})
 
 
-# @login_required
-class AddPost(CreateView):
+class AddPost(LoginRequiredMixin, CreateView):
+# class AddPost(CreateView):
     model = Post
     form_class = AddPostForm
     template_name = 'blog/post/add.html'
@@ -149,14 +150,14 @@ class UpdatePost(UpdateView):
     form_class = AddPostForm
     # fields = '__all__'
     template_name = 'blog/post/edit.html'
-    success_url = reverse_lazy('blog:post_list')
+    success_url = reverse_lazy('post_list')
 
 
 class DeletePost(DeleteView):
     model = Post
     template_name = 'blog/post/delete.html'
     context_object_name = 'post'
-    success_url = reverse_lazy('blog:post_list')
+    success_url = reverse_lazy('post_list')
 
 
 def user_login(request):

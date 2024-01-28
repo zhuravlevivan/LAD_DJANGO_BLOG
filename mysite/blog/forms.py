@@ -21,14 +21,11 @@ class SearchForm(forms.Form):
 
 
 class AddPostForm(forms.ModelForm):
-
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # it is required to set it False,
         # otherwise it will throw error in console
         self.fields["body"].required = False
-
 
     class Meta:
         model = Post
