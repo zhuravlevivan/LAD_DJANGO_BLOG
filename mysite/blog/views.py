@@ -142,7 +142,7 @@ class AddPost(LoginRequiredMixin, CreateView):
     model = Post
     form_class = AddPostForm
     template_name = 'blog/post/add.html'
-    success_url = reverse_lazy('blog:post_list')
+    success_url = reverse_lazy('post_list')
 
 
 class UpdatePost(UpdateView):
